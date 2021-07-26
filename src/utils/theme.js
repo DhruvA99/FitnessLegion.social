@@ -7,9 +7,6 @@ export const themeOptions = {
     secondary: {
       main: "#ce3667",
     },
-    text: {
-      secondary: "#6d7f98",
-    },
   },
   props: {
     MuiTooltip: {

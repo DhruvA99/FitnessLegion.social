@@ -10,7 +10,15 @@ import {
   ThemeProvider,
 } from "@material-ui/core/styles";
 
-const theme = createTheme(themeOptions);
+const mode = "light";
+
+const theme = createTheme({
+  ...themeOptions,
+  palette: {
+    ...themeOptions.palette,
+    type: mode === "light" ? "light" : "dark",
+  },
+});
 
 ReactDOM.render(
   <React.StrictMode>
