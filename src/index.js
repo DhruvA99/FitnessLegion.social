@@ -9,6 +9,7 @@ import {
   makeStyles,
   ThemeProvider,
 } from "@material-ui/core/styles";
+import { BrowserRouter } from "react-router-dom";
 
 const mode = "light";
 
@@ -22,9 +23,11 @@ const theme = createTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <ThemeProvider theme={theme}>
-      <App />
-    </ThemeProvider>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

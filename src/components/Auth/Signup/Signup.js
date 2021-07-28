@@ -6,9 +6,9 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
-import styles from "./Login.module.css";
-import loginImage from "../../../utils/images/loginImage.svg";
-import LoginForm from "./LoginForm/LoginForm";
+import styles from "./Signup.module.css";
+import signupImage from "../../../utils/images/signupImage.svg";
+import SignupForm from "./SignupForm/SignupForm";
 
 const useStyles = makeStyles((theme) => ({
   mainDiv: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "10px 14px 23px -11px rgba(0, 0, 0, 0.6)",
   },
   imageDiv: {
-    backgroundColor: "#0071FF",
+    backgroundColor: "#1156ad",
     borderTopLeftRadius: "8px",
     borderBottomLeftRadius: "8px",
     color: "#F2FFFF",
@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = (props) => {
+const Signup = (props) => {
   const classes = useStyles();
   return (
     <div className={styles.main_container}>
@@ -62,8 +62,8 @@ const Login = (props) => {
               </Grid>
               <Grid item>
                 <img
-                  className={styles.login_image}
-                  src={loginImage}
+                  className={styles.signup_image}
+                  src={signupImage}
                   alt="img"
                 />
               </Grid>
@@ -71,11 +71,11 @@ const Login = (props) => {
           </Hidden>
         </Grid>
         <Grid item xs={12} md={8}>
-          <LoginForm />
+          <SignupForm />
         </Grid>
       </Grid>
     </div>
   );
 };
 
-export default Login;
+export default Signup;
