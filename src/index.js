@@ -10,6 +10,8 @@ import {
   ThemeProvider,
 } from "@material-ui/core/styles";
 import { BrowserRouter } from "react-router-dom";
+import { Provider } from "react-redux";
+import { store } from "./redux/store/store";
 
 const mode = "light";
 
@@ -24,6 +26,7 @@ const theme = createTheme({
 ReactDOM.render(
   <React.StrictMode>
     <BrowserRouter>
+      <Provider store={store}></Provider>
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
