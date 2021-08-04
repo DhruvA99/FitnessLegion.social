@@ -1,6 +1,11 @@
 .login_image {
   width: 70%;
   padding-top: 3rem;
+  margin: auto;
 }
 .main_container {
+  display: flex;
+  min-height: calc(100vh - 8rem);
+  flex-direction: column;
+  justify-content: center;
 }

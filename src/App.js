@@ -1,19 +1,12 @@
 import logo from "./logo.svg";
 import "./App.css";
 import Button from "@material-ui/core/Button";
-import Login from "./components/Auth/Login/Login";
-import { Route, Routes } from "react-router";
-import Signup from "./components/Auth/Signup/Signup";
-import LandingPage from "./components/LandingPage/LandingPage";
+import Layout from "./components/Navigation/Layout";
 
 function App() {
   return (
     <div className="App">
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<LandingPage />} />
-      </Routes>
+      <Layout />
     </div>
   );
 }
