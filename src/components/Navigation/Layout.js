@@ -20,6 +20,7 @@ import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { Route, Routes } from "react-router";
 import Login from "../Auth/Login/Login";
 import LandingPage from "../LandingPage/LandingPage";
+import HomePage from "../HomePage/HomePage";
 
 const drawerWidth = 250;
 
@@ -158,6 +159,7 @@ function Layout(props) {
           <Route path="/login" element={<Login />} />
           {/* <Route path="/signup" element={<Signup />} /> */}
           <Route path="/" element={<LandingPage />} />
+          <Route path="/home" element={<HomePage />} />
         </Routes>
       </main>
     </div>

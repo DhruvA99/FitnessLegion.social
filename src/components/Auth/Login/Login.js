@@ -13,16 +13,13 @@ import LoginForm from "./LoginForm/LoginForm";
 
 const useStyles = makeStyles((theme) => ({
   mainDiv: {
-    [theme.breakpoints.down("sm")]: {
-      minHeight: "90%",
-    },
-    height: "90%",
-    padding: "",
-    width: "80%",
-    margin: "6rem  auto",
+    // flexGrow: "1",
+    // width: "80%",
   },
   gridContainer: {
-    height: "100%",
+    [theme.breakpoints.down("sm")]: {},
+    flexGrow: "1",
+    minHeight: "50vh",
   },
   imageDiv: {
     backgroundColor: "#0071FF",
@@ -74,7 +71,7 @@ const Login = (props) => {
                     alt="img"
                   />
                 </Grid>
-              </Grid>
+              </Grid>{" "}
             </Grid>
           </Hidden>
           <Grid item xs={12} md={8}>
