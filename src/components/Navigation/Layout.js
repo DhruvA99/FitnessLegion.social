@@ -18,9 +18,10 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 import { Route, Routes } from "react-router";
-import Login from "../Auth/Login/Login";
-import LandingPage from "../LandingPage/LandingPage";
+
 import HomePage from "../HomePage/HomePage";
+import { useSelector, useDispatch } from "react-redux";
+import { logoutUser } from "../../features/auth/authSlice";
 
 const drawerWidth = 250;
 
@@ -66,8 +67,10 @@ const useStyles = makeStyles((theme) => ({
 function Layout(props) {
   const { window } = props;
   const classes = useStyles();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
+  const authToken = useSelector((state) => state.auth.authToken);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -98,6 +101,15 @@ function Layout(props) {
           </ListItem>
         ))}
       </List>
+      {authToken !== null ? (
+        <List>
+          <ListItem onClick={() => dispatch(logoutUser())}>Logout</ListItem>
+        </List>
+      ) : (
+        <List>
+          <ListItem>Logged In</ListItem>
+        </List>
+      )}
     </div>
   );
 
@@ -156,10 +168,7 @@ function Layout(props) {
       <main className={classes.content}>
         <div className={`${classes.toolbar}`} />
         <Routes>
-          <Route path="/login" element={<Login />} />
-          {/* <Route path="/signup" element={<Signup />} /> */}
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/home" element={<HomePage />} />
+          <Route path="/" element={<HomePage />} />
         </Routes>
       </main>
     </div>

@@ -5,7 +5,9 @@ import {
   TextField,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../../features/auth/authSlice";
 import styles from "./LoginForm.module.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +36,10 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginForm = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <div className={styles.main_container}>
       <Grid container className={classes.mainDiv}>
@@ -50,6 +56,8 @@ const LoginForm = (props) => {
               className={classes.textField}
               id="outlined-basic"
               type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               label="Email"
               variant="outlined"
             />
@@ -59,6 +67,8 @@ const LoginForm = (props) => {
               fullWidth
               className={classes.textField}
               id="outlined-basic"
+              password={password}
+              onChange={(e) => setPassword(e.target.value)}
               type="password"
               label="Password"
               variant="outlined"
@@ -69,6 +79,7 @@ const LoginForm = (props) => {
               variant="contained"
               color="primary"
               className={classes.loginButton}
+              onClick={() => dispatch(loginUser({ email, password }))}
             >
               Login
             </Button>
