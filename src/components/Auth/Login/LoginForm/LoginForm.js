@@ -6,7 +6,8 @@ import {
   Typography,
 } from "@material-ui/core";
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { loginUser } from "../../../../features/auth/authSlice";
 import styles from "./LoginForm.module.css";
 
@@ -36,7 +37,9 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginForm = (props) => {
   const classes = useStyles();
+  const authToken = useSelector((state) => state.auth.authToken);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -75,11 +78,18 @@ const LoginForm = (props) => {
             />
           </Grid>
           <Grid item xs={12}>
+            {" "}
             <Button
               variant="contained"
               color="primary"
               className={classes.loginButton}
-              onClick={() => dispatch(loginUser({ email, password }))}
+              onClick={async () => {
+                await dispatch(loginUser({ email, password }));
+                if (authToken) {
+                  console.log("navigate called");
+                  navigate("/home");
+                }
+              }}
             >
               Login
             </Button>

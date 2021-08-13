@@ -11,6 +11,13 @@ const PrivateRoute = ({
   if (!isAuth) {
     return <Navigate to={redirectTo} />;
   }
+  if (props.children) {
+    return (
+      <Route path={path} element={<Component />}>
+        {props.children}
+      </Route>
+    );
+  }
   return <Route path={path} element={<Component />} />;
 };
 

@@ -16,12 +16,11 @@ import MenuIcon from "@material-ui/icons/Menu";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-
-import { Route, Routes } from "react-router";
-
-import HomePage from "../HomePage/HomePage";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { Outlet } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../features/auth/authSlice";
+import { Link } from "react-router-dom";
 
 const drawerWidth = 250;
 
@@ -60,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     flexGrow: 1,
+    width: `calc(100% - ${drawerWidth}px)`,
     padding: theme.spacing(3),
   },
 }));
@@ -81,17 +81,6 @@ function Layout(props) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
-      <Divider />
-      <List>
         {["All mail", "Trash", "Spam"].map((text, index) => (
           <ListItem button key={text}>
             <ListItemIcon>
@@ -103,11 +92,19 @@ function Layout(props) {
       </List>
       {authToken !== null ? (
         <List>
-          <ListItem onClick={() => dispatch(logoutUser())}>Logout</ListItem>
+          <ListItem button onClick={() => dispatch(logoutUser())}>
+            <ListItemIcon>
+              <ExitToAppIcon />
+            </ListItemIcon>
+
+            <Link to="/login">
+              <ListItemText primary="Logout" />
+            </Link>
+          </ListItem>
         </List>
       ) : (
         <List>
-          <ListItem>Logged In</ListItem>
+          <ListItem>Login</ListItem>
         </List>
       )}
     </div>
@@ -167,9 +164,7 @@ function Layout(props) {
       </nav>
       <main className={classes.content}>
         <div className={`${classes.toolbar}`} />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-        </Routes>
+        <Outlet />
       </main>
     </div>
   );

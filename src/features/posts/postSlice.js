@@ -7,14 +7,22 @@ const initialState = {
   error: "",
 };
 
-const fetchAllPosts = createAsyncThunk(
+export const fetchAllPosts = createAsyncThunk(
   "posts/fetchAllPost",
-  async (thunkAPI) => {
+  async (_, { rejectWithValue }) => {
     try {
-      const response = await axios.get("/posts/");
+      const authToken = localStorage.getItem("authToken");
+      const userId = localStorage.getItem("userId");
+      const response = await axios.get("/posts/", {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          userId: userId,
+        },
+      });
+      console.log(response.data);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue([], error);
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -28,14 +36,16 @@ export const postSlice = createSlice({
       state.status = "loading";
       state.error = "";
     },
-    [fetchAllPosts.fullfilled]: (state, payload) => {
+    [fetchAllPosts.fulfilled]: (state, { payload }) => {
       state.status = "success";
-      state.postData = payload;
+      state.postData = payload.postData;
       state.error = "";
     },
-    [fetchAllPosts.rejected]: (state, { payload, error }) => {
-      state.status = "failed";
-      state.error = error.message;
+    [fetchAllPosts.rejected]: (state, { payload, meta }) => {
+      if (meta.requestId !== state.currentRequestId) {
+        state.status = "failed";
+        state.error = payload.message;
+      }
     },
   },
 });

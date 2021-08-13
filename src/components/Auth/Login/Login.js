@@ -6,16 +6,15 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Login.module.css";
 import loginImage from "../../../utils/images/loginImage.svg";
 import LoginForm from "./LoginForm/LoginForm";
+import Backdrop from "@material-ui/core/Backdrop";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
-  mainDiv: {
-    // flexGrow: "1",
-    // width: "80%",
-  },
   gridContainer: {
     [theme.breakpoints.down("sm")]: {},
     flexGrow: "1",
@@ -28,6 +27,11 @@ const useStyles = makeStyles((theme) => ({
     color: "#F2FFFF",
     paddingTop: "3rem",
   },
+  backdrop: {
+    zIndex: theme.zIndex.drawer + 1,
+    color: "#0fc0bc",
+    width: "100%",
+  },
   textCommon: {
     padding: "0.4rem 0.7rem ",
   },
@@ -35,7 +39,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = (props) => {
   const classes = useStyles();
-  return (
+  const [openBackDrop, setOpenBackdrop] = useState(false);
+  const authStatus = useSelector((state) => state.auth.status);
+
+  let page = (
     <div className={styles.main_container}>
       <Paper className={classes.mainDiv} elevation={6}>
         <Grid
@@ -79,8 +86,16 @@ const Login = (props) => {
           </Grid>
         </Grid>
       </Paper>
+      <Backdrop
+        className={classes.backdrop}
+        open={authStatus === "loading" ? true : false}
+      >
+        <CircularProgress color="inherit" thickness="5" size="7rem" />
+      </Backdrop>
     </div>
   );
+
+  return <>{page}</>;
 };
 
 export default Login;

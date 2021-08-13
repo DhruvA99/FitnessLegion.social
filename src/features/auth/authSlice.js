@@ -1,10 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { Navigate } from "react-router";
 
 const initialState = {
   status: "idle",
-  authToken: "",
-  userId: "",
+  authToken: null,
+  userId: null,
   error: "",
   currentRequestId: "",
 };
@@ -16,6 +17,7 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post("auth/login", userData);
       localStorage.setItem("authToken", response.data.authToken);
       localStorage.setItem("userId", response.data.userId);
+
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -41,9 +43,17 @@ export const authSlice = createSlice({
     logoutUser: (state) => {
       localStorage.removeItem("authToken");
       localStorage.removeItem("userId");
-      state.authToken = "";
-      state.userId = "";
+      state.authToken = null;
+      state.userId = null;
       state.error = "";
+    },
+    checkAuthState: (state) => {
+      let authToken = localStorage.getItem("authToken");
+      let userId = localStorage.getItem("userId");
+      if (authToken && userId) {
+        state.authToken = authToken;
+        state.userId = userId;
+      }
     },
   },
   extraReducers: {
@@ -51,7 +61,7 @@ export const authSlice = createSlice({
       state.status = "loading";
     },
     [loginUser.fulfilled]: (state, { payload, meta }) => {
-      if (meta.requestId === state.currentRequestId.requestId) {
+      if (meta.requestId !== state.currentRequestId.requestId) {
         state.status = "success";
         state.authToken = payload.authToken;
         state.userId = payload.userId;
@@ -68,6 +78,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logoutUser } = authSlice.actions;
+export const { logoutUser, checkAuthState } = authSlice.actions;
 
 export default authSlice.reducer;

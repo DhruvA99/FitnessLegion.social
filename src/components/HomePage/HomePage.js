@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import Loader from "../LoaderComponent/Loader";
 import PostList from "../PostList/PostList";
 import AddPost from "./AddPost/AddPost";
 
