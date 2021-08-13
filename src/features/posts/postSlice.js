@@ -3,7 +3,7 @@ import axios from "axios";
 
 const initialState = {
   status: "idle",
-  postData: {},
+  postData: [],
   error: "",
 };
 

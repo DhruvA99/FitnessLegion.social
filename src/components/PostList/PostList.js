@@ -6,16 +6,15 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import React, { useEffect } from "react";
-import Skeleton from "@material-ui/lab/Skeleton";
+import PostCard from "./PostCard/PostCard";
 import SkeletonLoading from "../SkeletonLoading/SkeletonLoading";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { fetchAllPosts } from "../../features/posts/postSlice";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: "0.7rem",
-    display: "flex",
-    justifyContent: "center",
+
     flexDirection: "column",
     minHeight: "70vh",
     [theme.breakpoints.down("sm")]: {},
@@ -28,20 +27,63 @@ const useStyles = makeStyles((theme) => ({
 
 const PostList = (props) => {
   const dispatch = useDispatch();
+  const postData = useSelector((state) => state.posts.postData);
+  const postStatus = useSelector((state) => state.posts.status);
+  const postError = useSelector((state) => state.posts.error);
   useEffect(() => {
     dispatch(fetchAllPosts());
   }, []);
   const classes = useStyles();
-  const page = <div></div>;
+  let page = <div></div>;
+  if (postStatus === "loading" || postStatus === "idle") {
+    page = (
+      <div>
+        <SkeletonLoading loading />
+        <SkeletonLoading loading />
+      </div>
+    );
+  }
+  if (postStatus === "success" && postData.length !== 0) {
+    page = (
+      <div>
+        {postData?.map((post) => {
+          return <PostCard postInfo={post} />;
+        })}
+      </div>
+    );
+  }
+  if (postStatus === "failed") {
+    page = (
+      <div>
+        <Typography variant="body1">Cannot Fetch Post Data</Typography>
+        <Typography variant="subtitle2">{postError}</Typography>
+      </div>
+    );
+  }
+  // if (postData.length !== 0) {
+  //   if (postStatus === "failed") {
+  //     page = (
+  //       <div>
+  //         <Typography variant="body1">Cannot Fetch Post Data</Typography>
+  //         <Typography variant="subtitle2">{postError}</Typography>
+  //       </div>
+  //     );
+  //   } else {
+  //     page = (
+  //       <div>
+  //         data
+  //         {postData?.map((post) => {
+  //           return <PostCard />;
+  //         })}
+  //       </div>
+  //     );
+  //   }
+  // }
+
   return (
     <div className="container ">
       <Card className={classes.root}>
-        <CardContent className={classes.contentDiv}>
-          <div>
-            <SkeletonLoading loading />
-            <SkeletonLoading loading />
-          </div>
-        </CardContent>
+        <CardContent className={classes.contentDiv}>{page}</CardContent>
       </Card>
     </div>
   );

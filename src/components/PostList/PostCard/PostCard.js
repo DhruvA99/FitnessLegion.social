@@ -12,10 +12,6 @@ import { useDispatch } from "react-redux";
 const useStyles = makeStyles((theme) => ({
   root: {
     borderRadius: "0.7rem",
-    display: "flex",
-    justifyContent: "center",
-    flexDirection: "column",
-    minHeight: "70vh",
     [theme.breakpoints.down("sm")]: {},
   },
   contentDiv: {
@@ -26,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const PostCard = (props) => {
+const PostCard = ({ postInfo }) => {
   const dispatch = useDispatch();
 
   const classes = useStyles();
@@ -35,14 +31,16 @@ const PostCard = (props) => {
     <div className="container ">
       <Card className={classes.root}>
         <CardContent className={classes.contentDiv}>
-          <div className="w-full px-4 py-6 flex">
+          <div className="w-full px-4 py-3 flex items-center">
             <Avatar />
             <div className="flex flex-col p-2">
-              <Typography variant="body1">Name</Typography>
+              <Typography variant="body1">{postInfo.username}</Typography>
               <Typography variant="subtitle1">time</Typography>
             </div>
           </div>
-          <div className="w-full px-4 py-6"></div>
+          <div className="w-full px-5 py-3">
+            <Typography variant="body2">{postInfo.body}</Typography>
+          </div>
         </CardContent>
       </Card>
     </div>
