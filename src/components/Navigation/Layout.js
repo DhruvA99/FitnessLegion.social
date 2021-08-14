@@ -80,16 +80,7 @@ function Layout(props) {
     <div>
       <div className={classes.toolbar} />
       <Divider />
-      <List>
-        {["All mail", "Trash", "Spam"].map((text, index) => (
-          <ListItem button key={text}>
-            <ListItemIcon>
-              {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
-      </List>
+
       {authToken !== null ? (
         <List>
           <ListItem button onClick={() => dispatch(logoutUser())}>

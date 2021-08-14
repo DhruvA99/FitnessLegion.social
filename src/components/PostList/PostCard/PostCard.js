@@ -1,4 +1,4 @@
-import { Avatar, makeStyles } from "@material-ui/core";
+import { Avatar, Divider, makeStyles } from "@material-ui/core";
 import Card from "@material-ui/core/Card";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -6,8 +6,9 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import React, { useEffect } from "react";
-
 import { useDispatch } from "react-redux";
+import ActionBar from "./ActionBar/ActionBar";
+import MenuButton from "./MenuButton/MenuButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
   },
+  leftSpace: {
+    marginLeft: theme.spacing(5),
+  },
+  avatar: {},
 }));
 
 const PostCard = ({ postInfo }) => {
@@ -28,18 +33,28 @@ const PostCard = ({ postInfo }) => {
   const classes = useStyles();
   const page = <div></div>;
   return (
-    <div className="container ">
+    <div className="container my-4">
       <Card className={classes.root}>
         <CardContent className={classes.contentDiv}>
           <div className="w-full px-4 py-3 flex items-center">
-            <Avatar />
-            <div className="flex flex-col p-2">
+            <div className="w-11">
+              <Avatar className={classes.avatar} />
+            </div>
+            <div className="flex flex-col p-2 w-10/12">
               <Typography variant="body1">{postInfo.username}</Typography>
-              <Typography variant="subtitle1">time</Typography>
+              <Typography variant="caption">time</Typography>
+            </div>
+            <div className="w-2/12 self-end">
+              <MenuButton UserID={postInfo.user} postId={postInfo._id} />
             </div>
           </div>
-          <div className="w-full px-5 py-3">
-            <Typography variant="body2">{postInfo.body}</Typography>
+          <Divider />
+          <div className={`w-full px-5 py-3 ${classes.leftSpace}`}>
+            <Typography variant="body1">{postInfo.body}</Typography>
+          </div>
+          <Divider />
+          <div className={`w-full px-5 py-5 ${classes.leftSpace}`}>
+            <ActionBar postInfo={postInfo} />
           </div>
         </CardContent>
       </Card>

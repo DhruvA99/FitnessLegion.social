@@ -6,6 +6,7 @@ const initialState = {
   status: "idle",
   authToken: null,
   userId: null,
+  username: "",
   error: "",
   currentRequestId: "",
 };
@@ -45,6 +46,7 @@ export const authSlice = createSlice({
       localStorage.removeItem("userId");
       state.authToken = null;
       state.userId = null;
+      state.username = "";
       state.error = "";
     },
     checkAuthState: (state) => {
@@ -65,6 +67,7 @@ export const authSlice = createSlice({
         state.status = "success";
         state.authToken = payload.authToken;
         state.userId = payload.userId;
+        state.username = payload.username;
         state.currentRequestId = "";
       }
     },
