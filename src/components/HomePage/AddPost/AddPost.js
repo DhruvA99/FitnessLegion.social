@@ -6,6 +6,9 @@ import Button from "@material-ui/core/Button";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addPost } from "../../../features/posts/postSlice";
+import { useState } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +35,30 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const AddPost = (props) => {
+  const [text, setText] = useState("");
+  const [helperText, setHelperText] = useState("");
   const classes = useStyles();
+  const dispatch = useDispatch();
+  const userId = useSelector((state) => state.auth.userId);
+  const username = useSelector((state) => state.auth.username);
+
+  const addPostHandler = () => {
+    if (text !== "") {
+      setHelperText("");
+      dispatch(
+        addPost({
+          body: text,
+          username: username,
+          comments: [],
+          likes: [],
+          user: userId,
+        })
+      );
+    } else {
+      setHelperText(`U cannot Post an empty Field,${username}`);
+    }
+  };
+
   return (
     <div className="container pt-5">
       <Card className={classes.root}>
@@ -40,6 +66,13 @@ const AddPost = (props) => {
           <TextField
             fullWidth
             id="outlined-basic"
+            error={helperText !== "" ? true : false}
+            value={text}
+            helperText={helperText}
+            onChange={(e) => {
+              setText(e.target.value);
+              setHelperText("");
+            }}
             label={`What's new, ${props.username ? props.username : "User"} ?
           `}
             variant="outlined"
@@ -50,6 +83,7 @@ const AddPost = (props) => {
             className={classes.button}
             variant="contained"
             color="primary"
+            onClick={addPostHandler}
           >
             Post It!
           </Button>

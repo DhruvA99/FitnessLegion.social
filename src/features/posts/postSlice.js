@@ -26,6 +26,25 @@ export const fetchAllPosts = createAsyncThunk(
   }
 );
 
+export const addPost = createAsyncThunk(
+  "posts/addPost",
+  async (data, { rejectWithValue }) => {
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const userId = localStorage.getItem("userId");
+      const response = await axios.post("/posts/", data, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          userId: userId,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const deletePost = createAsyncThunk(
   "posts/deletePost",
   async (data, { rejectWithValue }) => {
@@ -40,8 +59,8 @@ export const deletePost = createAsyncThunk(
             Authorization: `Bearer ${authToken}`,
             userId: userId,
           },
-        },
-        { postId: data.postId }
+          data: { postId: data.postId },
+        }
       );
       return response.data;
     } catch (error) {
@@ -122,6 +141,21 @@ export const postSlice = createSlice({
         state.error = payload.message;
       }
     },
+    [addPost.pending]: (state) => {
+      state.status = "loading";
+      state.error = "";
+    },
+    [addPost.fulfilled]: (state, { payload }) => {
+      state.status = "success";
+      state.postData = payload.postData;
+      state.error = "";
+    },
+    [addPost.rejected]: (state, { payload, meta }) => {
+      if (meta.requestId !== state.currentRequestId) {
+        state.status = "failed";
+        state.error = payload.message;
+      }
+    },
     [deletePost.pending]: (state) => {
       state.status = "loading";
       state.error = "";
@@ -133,8 +167,9 @@ export const postSlice = createSlice({
     },
     [deletePost.rejected]: (state, { payload, meta }) => {
       if (meta.requestId !== state.currentRequestId) {
+        console.log(payload);
         state.status = "failed";
-        state.error = payload.message;
+        state.error = payload.errorMessage;
       }
     },
     [likePost.pending]: (state) => {

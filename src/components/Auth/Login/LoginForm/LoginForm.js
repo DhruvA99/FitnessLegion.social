@@ -22,11 +22,10 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
   },
   textField: {
-    margin: "1rem 0.4rem",
+    margin: "1rem 0",
   },
   loginButton: {
-    width: "70%",
-    margin: "2rem 1rem",
+    margin: "2rem auto",
     padding: "0.9rem 0.5rem",
   },
   heading: {
@@ -46,11 +45,18 @@ const LoginForm = (props) => {
   return (
     <div className={styles.main_container}>
       <Grid container className={classes.mainDiv}>
-        <Grid item xs={12}>
-          <Typography variant="h5" gutterBottom className={classes.heading}>
+        <Grid item xs={12} alignItems="center">
+          <Typography
+            variant="h5"
+            align="center"
+            gutterBottom
+            className={classes.heading}
+          >
             Login
           </Typography>
-          <Typography variant="subtitle1">Login to your account</Typography>
+          <Typography align="center" variant="subtitle1">
+            Login to your account
+          </Typography>
         </Grid>
         <Grid container className={classes.loginDiv}>
           <Grid item xs={12}>
@@ -77,11 +83,12 @@ const LoginForm = (props) => {
               variant="outlined"
             />
           </Grid>
-          <Grid item xs={12}>
+          <Grid item xs={12} alignContent="center">
             {" "}
             <Button
               variant="contained"
               color="primary"
+              fullWidth
               className={classes.loginButton}
               onClick={async () => {
                 await dispatch(loginUser({ email, password }));

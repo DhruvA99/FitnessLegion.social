@@ -18,7 +18,7 @@ export const loginUser = createAsyncThunk(
       const response = await axios.post("auth/login", userData);
       localStorage.setItem("authToken", response.data.authToken);
       localStorage.setItem("userId", response.data.userId);
-
+      localStorage.setItem("username", response.data.username);
       return response.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -44,6 +44,7 @@ export const authSlice = createSlice({
     logoutUser: (state) => {
       localStorage.removeItem("authToken");
       localStorage.removeItem("userId");
+      localStorage.removeItem("username");
       state.authToken = null;
       state.userId = null;
       state.username = "";
@@ -52,9 +53,11 @@ export const authSlice = createSlice({
     checkAuthState: (state) => {
       let authToken = localStorage.getItem("authToken");
       let userId = localStorage.getItem("userId");
+      let username = localStorage.getItem("username");
       if (authToken && userId) {
         state.authToken = authToken;
         state.userId = userId;
+        state.username = username;
       }
     },
   },
