@@ -6,13 +6,14 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./Login.module.css";
 import loginImage from "../../../utils/images/loginImage.svg";
 import LoginForm from "./LoginForm/LoginForm";
 import Backdrop from "@material-ui/core/Backdrop";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import { useSelector } from "react-redux";
+import SnackBar from "../../../utils/SnackBar/SnackBar";
 
 const useStyles = makeStyles((theme) => ({
   gridContainer: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
     borderTopLeftRadius: "8px",
     borderBottomLeftRadius: "8px",
     color: "#F2FFFF",
-    paddingTop: "3rem",
+    padding: "3rem 0.5rem",
   },
   backdrop: {
     zIndex: theme.zIndex.drawer + 1,
@@ -39,8 +40,19 @@ const useStyles = makeStyles((theme) => ({
 
 const Login = (props) => {
   const classes = useStyles();
-  const [openBackDrop, setOpenBackdrop] = useState(false);
+  const [mainError, setMainError] = useState(false);
   const authStatus = useSelector((state) => state.auth.status);
+  const authError = useSelector((state) => state.auth.error);
+
+  useEffect(() => {
+    if (authError !== "") {
+      console.log("useeffect if statement reached", mainError);
+      setMainError(true);
+      setTimeout(() => {
+        setMainError(false);
+      }, 9000);
+    }
+  }, [authError, authStatus]);
 
   let page = (
     <div className={styles.main_container}>
@@ -86,6 +98,7 @@ const Login = (props) => {
           </Grid>
         </Grid>
       </Paper>
+      <SnackBar open={mainError} error={authError ? authError : ""} />
       <Backdrop
         className={classes.backdrop}
         open={authStatus === "loading" ? true : false}

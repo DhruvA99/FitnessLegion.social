@@ -17,10 +17,13 @@ import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import HomeIcon from "@material-ui/icons/Home";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Outlet } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../features/auth/authSlice";
 import { Link } from "react-router-dom";
+import { Avatar } from "@material-ui/core";
 
 const drawerWidth = 250;
 
@@ -71,33 +74,60 @@ function Layout(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const authToken = useSelector((state) => state.auth.authToken);
+  const username = useSelector((state) => state.auth.username);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const drawer = (
-    <div>
-      <div className={classes.toolbar} />
+    <div className="flex flex-col">
+      <div className="flex flex-row pt-12 pb-10 p-5 justify-start items-center ">
+        <Avatar />
+        <div className="pl-4">
+          <span className="text-lg font-normal ">
+            {username ? username : "User"}
+          </span>
+        </div>
+      </div>
       <Divider />
+      <div className="  ">
+        {authToken !== null ? (
+          <List>
+            <ListItem button>
+              <ListItemIcon>
+                <HomeIcon />
+              </ListItemIcon>
 
-      {authToken !== null ? (
-        <List>
-          <ListItem button onClick={() => dispatch(logoutUser())}>
-            <ListItemIcon>
-              <ExitToAppIcon />
-            </ListItemIcon>
+              <Link to="/home">
+                <ListItemText primary="Home" />
+              </Link>
+            </ListItem>
+            <ListItem button>
+              <ListItemIcon>
+                <AccountCircleIcon />
+              </ListItemIcon>
 
-            <Link to="/login">
-              <ListItemText primary="Logout" />
-            </Link>
-          </ListItem>
-        </List>
-      ) : (
-        <List>
-          <ListItem>Login</ListItem>
-        </List>
-      )}
+              <Link to="/home">
+                <ListItemText primary="Profile" />
+              </Link>
+            </ListItem>
+            <ListItem button onClick={() => dispatch(logoutUser())}>
+              <ListItemIcon>
+                <ExitToAppIcon />
+              </ListItemIcon>
+
+              <Link to="/login">
+                <ListItemText primary="Logout" />
+              </Link>
+            </ListItem>
+          </List>
+        ) : (
+          <List>
+            <ListItem>Login</ListItem>
+          </List>
+        )}
+      </div>
     </div>
   );
 

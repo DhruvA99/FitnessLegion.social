@@ -47,7 +47,7 @@ const PostList = (props) => {
     page = (
       <div>
         {postData?.map((post) => {
-          return <PostCard postInfo={post} />;
+          return <PostCard key={post._id} postInfo={post} />;
         })}
       </div>
     );

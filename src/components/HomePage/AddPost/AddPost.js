@@ -60,7 +60,7 @@ const AddPost = (props) => {
   };
 
   return (
-    <div className="container pt-5">
+    <div className="container pt">
       <Card className={classes.root}>
         <CardContent className={classes.inputDiv}>
           <TextField

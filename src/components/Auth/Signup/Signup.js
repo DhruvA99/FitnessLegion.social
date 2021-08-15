@@ -12,7 +12,6 @@ import SignupForm from "./SignupForm/SignupForm";
 
 const useStyles = makeStyles((theme) => ({
   mainDiv: {
-    minHeight: "90vh",
     width: "80%",
     margin: " 2rem auto",
     boxShadow: "10px 14px 23px -11px rgba(0, 0, 0, 0.6)",

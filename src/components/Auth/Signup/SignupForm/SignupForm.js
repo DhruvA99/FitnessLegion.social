@@ -22,7 +22,6 @@ const useStyles = makeStyles((theme) => ({
     margin: "1rem 0.4rem",
   },
   signupButton: {
-    width: "70%",
     margin: "2rem 1rem",
     padding: "0.9rem 0.5rem",
   },
@@ -38,10 +37,17 @@ const LoginForm = (props) => {
     <div className={styles.main_container}>
       <Grid container className={classes.mainDiv}>
         <Grid item xs={12}>
-          <Typography variant="h5" className={classes.heading} gutterBottom>
+          <Typography
+            variant="h5"
+            align="center"
+            className={classes.heading}
+            gutterBottom
+          >
             Sign Up
           </Typography>
-          <Typography variant="subtitle1">Signup for your account</Typography>
+          <Typography align="center" variant="subtitle1">
+            Signup for your account
+          </Typography>
         </Grid>
         <Grid container className={classes.loginDiv}>
           <Grid item xs={12}>
@@ -78,6 +84,7 @@ const LoginForm = (props) => {
             <Button
               variant="contained"
               color="primary"
+              fullWidth
               className={classes.signupButton}
             >
               Sign Up
