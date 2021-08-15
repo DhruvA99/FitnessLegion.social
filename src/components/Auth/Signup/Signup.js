@@ -9,6 +9,7 @@ import React from "react";
 import styles from "./Signup.module.css";
 import signupImage from "../../../utils/images/signupImage.svg";
 import SignupForm from "./SignupForm/SignupForm";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   mainDiv: {
@@ -38,8 +39,8 @@ const Signup = (props) => {
         spacing={0}
         className={classes.mainDiv}
       >
-        <Grid item xs={12} md={4} className={classes.imageDiv}>
-          <Hidden xsDown>
+        <Hidden xsDown>
+          <Grid item xs={12} md={4} className={classes.imageDiv}>
             <Grid container>
               <Grid item xs={12}>
                 <Typography
@@ -67,8 +68,8 @@ const Signup = (props) => {
                 />
               </Grid>
             </Grid>
-          </Hidden>
-        </Grid>
+          </Grid>{" "}
+        </Hidden>
         <Grid item xs={12} md={8}>
           <SignupForm />
         </Grid>

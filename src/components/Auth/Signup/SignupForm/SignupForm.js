@@ -6,6 +6,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import React from "react";
+import { Link } from "react-router-dom";
 import styles from "./SignupForm.module.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     margin: "1rem 0.4rem",
   },
   signupButton: {
-    margin: "2rem 1rem",
+    margin: "2rem 0",
     padding: "0.9rem 0.5rem",
   },
   heading: {
@@ -89,6 +90,14 @@ const LoginForm = (props) => {
             >
               Sign Up
             </Button>
+          </Grid>
+          <Grid item xs={12} style={{ marginBottom: "3rem" }}>
+            <Typography variant="body1" gutterBottom>
+              Already have an account?{" "}
+              <Link to="/login">
+                <span className="text-blue-600 underline">Log In</span>
+              </Link>{" "}
+            </Typography>
           </Grid>
         </Grid>
       </Grid>
