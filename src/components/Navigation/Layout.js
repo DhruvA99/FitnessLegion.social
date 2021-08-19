@@ -22,7 +22,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Outlet } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
 import { logoutUser } from "../../features/auth/authSlice";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { Avatar } from "@material-ui/core";
 
 const drawerWidth = 250;
@@ -74,6 +74,7 @@ function Layout(props) {
   const theme = useTheme();
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const authToken = useSelector((state) => state.auth.authToken);
+  const userId = useSelector((state) => state.auth.userId);
   const username = useSelector((state) => state.auth.username);
 
   const handleDrawerToggle = () => {
@@ -94,24 +95,24 @@ function Layout(props) {
       <div className="  ">
         {authToken !== null ? (
           <List>
-            <ListItem button>
-              <ListItemIcon>
-                <HomeIcon />
-              </ListItemIcon>
+            <Link to="/home">
+              <ListItem button>
+                <ListItemIcon>
+                  <HomeIcon />
+                </ListItemIcon>
 
-              <Link to="/home">
                 <ListItemText primary="Home" />
-              </Link>
-            </ListItem>
-            <ListItem button>
-              <ListItemIcon>
-                <AccountCircleIcon />
-              </ListItemIcon>
+              </ListItem>
+            </Link>
+            <NavLink to={`/home/profile/${userId}`}>
+              <ListItem button>
+                <ListItemIcon>
+                  <AccountCircleIcon />
+                </ListItemIcon>
+                <ListItemText primary="Profile" />{" "}
+              </ListItem>
+            </NavLink>
 
-              <Link to="/home">
-                <ListItemText primary="Profile" />
-              </Link>
-            </ListItem>
             <ListItem button onClick={() => dispatch(logoutUser())}>
               <ListItemIcon>
                 <ExitToAppIcon />

@@ -6,7 +6,6 @@ const initialState = {
   status: "idle",
   authToken: null,
   userId: null,
-  profileImageURL: "",
   username: "",
   error: "",
   currentRequestId: "",
@@ -38,8 +37,8 @@ export const signupUser = createAsyncThunk(
   }
 );
 
-export const authSlice = createSlice({
-  name: "auth",
+export const profileSlice = createSlice({
+  name: "profile",
   initialState,
   reducers: {
     logoutUser: (state) => {
@@ -60,10 +59,6 @@ export const authSlice = createSlice({
         state.userId = userId;
         state.username = username;
       }
-    },
-    setProfileImage: (state, action) => {
-      localStorage.setItem("profileImageURL", action.payload);
-      state.profileImageURL = action.payload;
     },
   },
   extraReducers: {
@@ -89,7 +84,6 @@ export const authSlice = createSlice({
   },
 });
 
-export const { logoutUser, checkAuthState, setProfileImage } =
-  authSlice.actions;
+export const { logoutUser, checkAuthState } = profileSlice.actions;
 
-export default authSlice.reducer;
+export default profileSlice.reducer;
