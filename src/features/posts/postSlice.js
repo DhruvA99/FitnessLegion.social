@@ -5,6 +5,7 @@ const initialState = {
   status: "idle",
   postData: [],
   error: "",
+  post: null,
 };
 
 export const fetchAllPosts = createAsyncThunk(
@@ -25,6 +26,8 @@ export const fetchAllPosts = createAsyncThunk(
     }
   }
 );
+
+export const fetchPost = createAsyncThunk("posts/fetchPost");
 
 export const addPost = createAsyncThunk(
   "posts/addPost",

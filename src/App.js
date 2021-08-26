@@ -12,6 +12,7 @@ import { useEffect } from "react";
 import { checkAuthState } from "./features/auth/authSlice";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
 import ProfilePage from "./components/ProfilePage/ProfilePage";
+import PostPage from "./components/PostPage/PostPage";
 
 function App() {
   const authToken = useSelector((state) => state.auth.authToken);
@@ -41,6 +42,12 @@ function App() {
             isAuth={authToken !== null}
             path="/profile/:userId"
             component={ProfilePage}
+            redirectTo="/login"
+          />
+          <PrivateRoute
+            isAuth={authToken !== null}
+            path="/post/:postId"
+            component={PostPage}
             redirectTo="/login"
           />
         </PrivateRoute>

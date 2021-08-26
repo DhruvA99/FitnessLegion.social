@@ -9,6 +9,7 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import ActionBar from "./ActionBar/ActionBar";
 import MenuButton from "./MenuButton/MenuButton";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,7 @@ const PostCard = ({ postInfo }) => {
   const classes = useStyles();
   const page = <div></div>;
   return (
-    <div className="container my-4">
+    <div className="container  my-4">
       <Card className={classes.root}>
         <CardContent className={classes.contentDiv}>
           <div className="w-full px-4 py-3 flex items-center">
@@ -49,9 +50,11 @@ const PostCard = ({ postInfo }) => {
             </div>
           </div>
           <Divider />
-          <div className={`w-full px-5 py-3 ${classes.leftSpace}`}>
-            <Typography variant="body1">{postInfo.body}</Typography>
-          </div>
+          <Link to={`/home/post/${postInfo._id}`} className=" no-underline ">
+            <div className={`w-full px-5 py-3 ${classes.leftSpace}`}>
+              <Typography variant="body1">{postInfo.body}</Typography>
+            </div>
+          </Link>
           <Divider />
           <div className={`w-full px-5 py-5 ${classes.leftSpace}`}>
             <ActionBar postInfo={postInfo} />

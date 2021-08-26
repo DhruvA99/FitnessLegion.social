@@ -12,8 +12,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import MessageIcon from "@material-ui/icons/Message";
 
 import { useDispatch, useSelector } from "react-redux";
-import { likePost, unlikePost } from "../../../../features/posts/postSlice";
-import { Link } from "react-router-dom";
+import { likePost, unlikePost } from "../../../features/posts/postSlice";
 
 const useStyles = makeStyles((theme) => ({
   iconCommon: {
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ActionBar = ({ postInfo }) => {
+const PostPageActionDiv = ({ postInfo }) => {
   const [likeStatus, setLikeStatus] = useState(false);
   const userID = useSelector((state) => state.auth.userId);
   const username = useSelector((state) => state.auth.username);
@@ -60,14 +59,11 @@ const ActionBar = ({ postInfo }) => {
           />
         </Tooltip>
       )}
-
       <Tooltip title="Comment" placement="right-end">
-        <Link to={`/home/post/${postInfo._id}`}>
-          <MessageIcon className={classes.iconCommon} />
-        </Link>
+        <MessageIcon className={classes.iconCommon} />
       </Tooltip>
     </div>
   );
 };
 
-export default ActionBar;
+export default PostPageActionDiv;

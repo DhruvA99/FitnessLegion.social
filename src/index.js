@@ -15,8 +15,8 @@ import { store } from "./app/store";
 import axios from "axios";
 
 axios.defaults.baseURL = "http://localhost:3005/api";
-axios.defaults.baseURL =
-  "https://fitnesslegionsocial-backend.herokuapp.com/api";
+// axios.defaults.baseURL =
+//   "https://fitnesslegionsocial-backend.herokuapp.com/api";
 
 const mode = "light";
 
