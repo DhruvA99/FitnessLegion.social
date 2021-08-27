@@ -39,7 +39,14 @@ const PostCard = ({ postInfo }) => {
         <CardContent className={classes.contentDiv}>
           <div className="w-full px-4 py-3 flex items-center">
             <div className="w-11">
-              <Avatar className={classes.avatar} />
+              <Avatar
+                src={
+                  postInfo.profileImageURL !== "" && postInfo.profileImageURL
+                    ? postInfo.profileImageURL
+                    : ""
+                }
+                className={classes.avatar}
+              />
             </div>
             <div className="flex flex-col p-2 w-10/12">
               <Typography variant="body1">{postInfo.username}</Typography>

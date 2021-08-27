@@ -124,6 +124,27 @@ export const unlikePost = createAsyncThunk(
   }
 );
 
+export const deleteComment = createAsyncThunk(
+  "posts/deleteComment",
+  async (data, { rejectWithValue }) => {
+    try {
+      const authToken = localStorage.getItem("authToken");
+      const userId = localStorage.getItem("userId");
+      const response = await axios.delete(`/posts/comment/${data.postId}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          userId: userId,
+        },
+        data: { commentId: data.commentId },
+      });
+      console.log(response.data);
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const postSlice = createSlice({
   name: "posts",
   initialState,
@@ -203,6 +224,22 @@ export const postSlice = createSlice({
       if (meta.requestId !== state.currentRequestId) {
         state.status = "failed";
         state.error = payload.message;
+      }
+    },
+    [deleteComment.pending]: (state) => {
+      state.status = "loading";
+      state.error = "";
+    },
+    [deleteComment.fulfilled]: (state, { payload }) => {
+      state.status = "success";
+      state.postData = payload.postData;
+      state.error = "";
+    },
+    [deleteComment.rejected]: (state, { payload, meta }) => {
+      if (meta.requestId !== state.currentRequestId) {
+        console.log(payload);
+        state.status = "failed";
+        state.error = payload.errorMessage;
       }
     },
   },

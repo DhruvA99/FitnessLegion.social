@@ -79,15 +79,40 @@ const CommentSection = ({ postInfo, getPost }) => {
     }
   };
 
+  const deleteCommentHandler = async (postId, commentId) => {
+    try {
+      setError("");
+      setLoading(true);
+      const response = await axios.delete(`/posts/comment/${postId}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          userId: userID,
+        },
+        data: { commentId: commentId },
+      });
+      getPost();
+    } catch (error) {
+      setError(error.response.data.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   let page = <div>Loading</div>;
   if (!loading) {
     page = (
       <Card className={classes.root}>
         <CardContent className={classes.contentDiv}>
-          <Grid container spacing={2} className={classes.textBox}>
-            <Grid item xs={8}>
+          <Grid
+            container
+            alignItems="center"
+            spacing={2}
+            className={classes.textBox}
+          >
+            <Grid item xs={7} md={8} lg={10}>
               {" "}
               <TextField
+                fullWidth
                 className=""
                 error={error !== ""}
                 helperText={error ? error : ""}
@@ -98,13 +123,13 @@ const CommentSection = ({ postInfo, getPost }) => {
                 variant="outlined"
               />
             </Grid>
-            <Grid item xs={4}>
+            <Grid item xs={5} md={4} lg={2} className="text-center">
               {" "}
               <Button
-                className=""
                 variant="contained"
                 color="primary"
                 onClick={addComment}
+                fullWidth
               >
                 Add Comment
               </Button>
@@ -113,9 +138,16 @@ const CommentSection = ({ postInfo, getPost }) => {
           <Divider />
           <div className="flex flex-col justify-center align-middle">
             {postInfo.comments.length !== 0 &&
-              postInfo.comments.map((comment) => (
-                <CommentCard postInfo={postInfo} />
-              ))}
+              postInfo.comments
+                .slice(0)
+                .reverse()
+                .map((comment) => (
+                  <CommentCard
+                    deleteCommentHandler={deleteCommentHandler}
+                    postId={postInfo._id}
+                    commentInfo={comment}
+                  />
+                ))}
             {postInfo.comments.length === 0 && (
               <div className="px-2 py-3 text-center">
                 <Typography variant="body2">No Comments till yet</Typography>

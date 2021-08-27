@@ -76,6 +76,7 @@ function Layout(props) {
   const authToken = useSelector((state) => state.auth.authToken);
   const userId = useSelector((state) => state.auth.userId);
   const username = useSelector((state) => state.auth.username);
+  const profileImageURL = useSelector((state) => state.auth.profileImageURL);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
@@ -84,7 +85,9 @@ function Layout(props) {
   const drawer = (
     <div className="flex flex-col">
       <div className="flex flex-row pt-12 pb-10 p-5 justify-start items-center ">
-        <Avatar />
+        <Avatar
+          src={profileImageURL !== "" && profileImageURL ? profileImageURL : ""}
+        />
         <div className="pl-4">
           <span className="text-lg font-normal ">
             {username ? username : "User"}

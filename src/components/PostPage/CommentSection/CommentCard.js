@@ -12,6 +12,7 @@ import Tooltip from "@material-ui/core/Tooltip";
 import MessageIcon from "@material-ui/icons/Message";
 
 import { useDispatch, useSelector } from "react-redux";
+import CommentMenuButton from "./CommentMenuButton";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   toolbar: theme.mixins.toolbar,
 }));
 
-const CommentCard = ({ postInfo }) => {
+const CommentCard = ({ commentInfo, postId, deleteCommentHandler }) => {
   const [likeStatus, setLikeStatus] = useState(false);
   const userID = useSelector((state) => state.auth.userId);
   const username = useSelector((state) => state.auth.username);
@@ -42,9 +43,35 @@ const CommentCard = ({ postInfo }) => {
 
   const page = <div></div>;
   return (
-    <div className="flex">
+    <>
+      <div className="w-full flex-col px-5 py-6">
+        <div className="w-full flex items-center ">
+          <div className="w-2/12 md:w-1/12">
+            <Avatar className="" alt="img" />
+          </div>
+
+          <div className="flex flex-col w-9/12 md:w-10/12">
+            <Typography variant="body1" color="textPrimary">
+              {commentInfo.username}
+            </Typography>
+            <Typography variant="body2" color="textPrimary">
+              {commentInfo.body}
+            </Typography>
+          </div>
+          {
+            <div className="w-1/12 md:w-1/12">
+              <CommentMenuButton
+                postId={postId}
+                commentId={commentInfo._id}
+                commentUserId={commentInfo.userId}
+                deleteCommentHandler={deleteCommentHandler}
+              />
+            </div>
+          }
+        </div>
+      </div>
       <Divider />
-    </div>
+    </>
   );
 };
 

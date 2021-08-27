@@ -46,9 +46,12 @@ const PostList = (props) => {
   if (postStatus === "success" && postData.length !== 0) {
     page = (
       <div>
-        {postData?.map((post) => {
-          return <PostCard key={post._id} postInfo={post} />;
-        })}
+        {postData
+          ?.slice(0)
+          .reverse()
+          .map((post) => {
+            return <PostCard key={post._id} postInfo={post} />;
+          })}
       </div>
     );
   }
