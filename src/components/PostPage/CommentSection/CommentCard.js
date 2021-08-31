@@ -47,7 +47,13 @@ const CommentCard = ({ commentInfo, postId, deleteCommentHandler }) => {
       <div className="w-full flex-col px-5 py-6">
         <div className="w-full flex items-center ">
           <div className="w-2/12 md:w-1/12">
-            <Avatar className="" alt="img" />
+            <Avatar
+              className=""
+              src={
+                commentInfo.profileImageURL ? commentInfo.profileImageURL : ""
+              }
+              alt="img"
+            />
           </div>
 
           <div className="flex flex-col w-9/12 md:w-10/12">

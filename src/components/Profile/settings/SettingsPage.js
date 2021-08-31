@@ -6,8 +6,9 @@ import { Button, Typography } from "@material-ui/core";
 import axios from "axios";
 import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
-import { setProfileImage } from "../../features/auth/authSlice";
+// import { setProfileImage } from "../../features/auth/authSlice";
 import { useDispatch } from "react-redux";
+import { setProfileImage } from "../../../features/auth/authSlice";
 // import { Image } from "cloudinary-react";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfilePage = (props) => {
+const SettingsPage = (props) => {
   const classes = useStyles();
   const [imageSelected, setImageSelected] = useState(null);
   const [imageURL, setImageURL] = useState(
@@ -63,7 +64,7 @@ const ProfilePage = (props) => {
   return (
     <div className="flex flex-col justify-center self-center px-8 py-10">
       <div className="flex flex-col ">
-        <span className="text-xl text-center">Profile</span>
+        <span className="text-xl text-center">Profile Settings</span>
 
         <Avatar
           src={imageURL === "" ? "" : imageURL}
@@ -109,4 +110,4 @@ const ProfilePage = (props) => {
   );
 };
 
-export default ProfilePage;
+export default SettingsPage;

@@ -74,7 +74,7 @@ const PostPage = ({ postInfo }) => {
 
   if (!loading && data !== null) {
     page = (
-      <div className="flex flex-col">
+      <div className="flex flex-col p-6">
         {/* <div className={`${classes.toolbar}`} /> */}
         <Grid container spacing={2}>
           <Grid item xs={12}>
@@ -82,11 +82,14 @@ const PostPage = ({ postInfo }) => {
               <CardContent className={classes.contentDiv}>
                 <div className="w-full px-4 py-3 flex items-center">
                   <div className="w-11">
-                    <Avatar className={classes.avatar} />
+                    <Avatar
+                      className={classes.avatar}
+                      src={data.profileImageURL ? data.profileImageURL : ""}
+                    />
                   </div>
                   <div className="flex flex-col p-2 w-10/12">
                     <Typography variant="body1">{data.username}</Typography>
-                    <Typography variant="caption">time</Typography>
+                    <Typography variant="caption"></Typography>
                   </div>
                   <div className="w-2/12 self-end">
                     <MenuButton UserID={data.user} postId={data._id} />

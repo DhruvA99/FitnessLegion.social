@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
 const HomePage = (props) => {
   const classes = useStyles();
   return (
-    <div className="container w-full ">
+    <div className="container w-full p-6 ">
       <div className="flex flex-col">
         <Grid container spacing={5}>
           <Grid item xs={12}>

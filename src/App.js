@@ -11,8 +11,11 @@ import LandingPage from "./components/LandingPage/LandingPage";
 import { useEffect } from "react";
 import { checkAuthState } from "./features/auth/authSlice";
 import PrivateRoute from "./components/PrivateRoute/PrivateRoute";
-import ProfilePage from "./components/ProfilePage/ProfilePage";
+
 import PostPage from "./components/PostPage/PostPage";
+import NotFoundPage from "./utils/NotFoundPage/NotFoundPage";
+import SettingsPage from "./components/Profile/settings/SettingsPage";
+import ProfilePage from "./components/Profile/ProfilePage/ProfilePage";
 
 function App() {
   const authToken = useSelector((state) => state.auth.authToken);
@@ -46,6 +49,12 @@ function App() {
           />
           <PrivateRoute
             isAuth={authToken !== null}
+            path="/settings/:userId"
+            component={SettingsPage}
+            redirectTo="/login"
+          />
+          <PrivateRoute
+            isAuth={authToken !== null}
             path="/post/:postId"
             component={PostPage}
             redirectTo="/login"
@@ -63,7 +72,7 @@ function App() {
           component={Signup}
           redirectTo="/home"
         />
-        <Route path="*" replace element={<LandingPage />} />
+        <Route path="*" replace element={<NotFoundPage />} />
       </Routes>
     </div>
   );

@@ -18,6 +18,7 @@ import Typography from "@material-ui/core/Typography";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import HomeIcon from "@material-ui/icons/Home";
+import BuildIcon from "@material-ui/icons/Build";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import { Outlet } from "react-router";
 import { useSelector, useDispatch } from "react-redux";
@@ -63,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     flexGrow: 1,
     width: `calc(100% - ${drawerWidth}px)`,
-    padding: theme.spacing(3),
+    // padding: theme.spacing(3),
   },
 }));
 
@@ -113,6 +114,14 @@ function Layout(props) {
                   <AccountCircleIcon />
                 </ListItemIcon>
                 <ListItemText primary="Profile" />{" "}
+              </ListItem>
+            </NavLink>
+            <NavLink to={`/home/settings/${userId}`}>
+              <ListItem button>
+                <ListItemIcon>
+                  <BuildIcon />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />{" "}
               </ListItem>
             </NavLink>
 

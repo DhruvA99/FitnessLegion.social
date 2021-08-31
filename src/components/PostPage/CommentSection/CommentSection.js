@@ -40,6 +40,7 @@ const CommentSection = ({ postInfo, getPost }) => {
   const userID = useSelector((state) => state.auth.userId);
   const authToken = useSelector((state) => state.auth.authToken);
   const username = useSelector((state) => state.auth.username);
+  const profileImageURL = useSelector((state) => state.auth.profileImageURL);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [comment, setComment] = useState("");
@@ -62,7 +63,7 @@ const CommentSection = ({ postInfo, getPost }) => {
         setLoading(true);
         const response = await axios.post(
           `/posts/comment/${postInfo._id}`,
-          { body: comment, username },
+          { body: comment, username, profileImageURL },
           {
             headers: {
               Authorization: `Bearer ${authToken}`,
