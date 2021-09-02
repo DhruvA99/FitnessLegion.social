@@ -16,6 +16,7 @@ const FollowActions = ({ followersList, followingList }) => {
   const classes = useStyles();
 
   const handleClickOpen = (listData, type) => {
+    console.log(listData);
     setOpen(true);
     setList(listData);
     setType(type);

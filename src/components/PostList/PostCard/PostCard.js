@@ -10,6 +10,7 @@ import { useDispatch } from "react-redux";
 import ActionBar from "./ActionBar/ActionBar";
 import MenuButton from "./MenuButton/MenuButton";
 import { Link } from "react-router-dom";
+import { getTime } from "../../../utils/getTime";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -30,6 +31,24 @@ const useStyles = makeStyles((theme) => ({
 
 const PostCard = ({ postInfo }) => {
   const dispatch = useDispatch();
+  // const getTime = () => {
+  //   let creationTime = new Date(postInfo.updatedAt).getTime();
+  //   let currentTime = new Date().getTime();
+  //   let time = (currentTime - creationTime) / 1000;
+  //   if (time < 60) {
+  //     return "less than a minute ago";
+  //   } else if (time > 60 && time < 3600) {
+  //     return `${Math.floor(time / 60)} minutes ago`;
+  //   } else if (time > 3600 && time < 86400) {
+  //     return `${Math.floor(time / (60 * 60))} hours ago`;
+  //   } else if (time > 86400 && time < 2592000) {
+  //     return `${Math.floor(time / (60 * 60 * 24))} days ago`;
+  //   } else {
+  //     return `${Math.floor(time / (60 * 60 * 24 * 30))} months ago`;
+  //   }
+  // };
+
+  const time = getTime(postInfo.updatedAt);
 
   const classes = useStyles();
   const page = <div></div>;
@@ -52,7 +71,7 @@ const PostCard = ({ postInfo }) => {
             </div>
             <div className="flex flex-col p-2 w-10/12">
               <Typography variant="body1">{postInfo.username}</Typography>
-              <Typography variant="caption">time</Typography>
+              <Typography variant="caption">{time}</Typography>
             </div>
             <div className="w-2/12 self-end">
               <MenuButton UserID={postInfo.user} postId={postInfo._id} />

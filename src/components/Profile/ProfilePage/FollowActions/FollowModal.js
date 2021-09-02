@@ -13,6 +13,7 @@ import PersonIcon from "@material-ui/icons/Person";
 import AddIcon from "@material-ui/icons/Add";
 import Typography from "@material-ui/core/Typography";
 import { blue } from "@material-ui/core/colors";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   text: {
@@ -54,19 +55,27 @@ const FollowModal = (props) => {
       <DialogTitle id="simple-dialog-title">{type} List</DialogTitle>
       <List>
         {data.length !== 0 &&
-          data.map((email) => (
-            <ListItem
-              button
-              onClick={() => handleListItemClick(email)}
-              key={email}
-            >
-              <ListItemAvatar>
-                <Avatar className={classes.avatar}>
-                  <PersonIcon />
-                </Avatar>
-              </ListItemAvatar>
-              <ListItemText primary={email} />
-            </ListItem>
+          data.map((user) => (
+            <Link to={`/home/profile/${user.userId}`}>
+              <ListItem
+                button
+                // onClick={() => handleListItemClick(false)}
+                key={user._id}
+              >
+                <ListItemAvatar>
+                  <Avatar
+                    className={classes.avatar}
+                    src={user.profileImageURL ? user.profileImageURL : null}
+                  >
+                    {(!user.profileImageURL || user.profileImageURL === "") && (
+                      <PersonIcon />
+                    )}
+                  </Avatar>
+                </ListItemAvatar>
+
+                <ListItemText primary={user.username} />
+              </ListItem>
+            </Link>
           ))}
         {data.length === 0 && <span className="px-5">No {type} yet</span>}
       </List>

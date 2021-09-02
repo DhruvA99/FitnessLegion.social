@@ -14,6 +14,7 @@ import { useParams } from "react-router";
 import Loader from "../LoaderComponent/Loader";
 import PostPageActionDiv from "./PostPageAction/PostPageActionDiv";
 import CommentSection from "./CommentSection/CommentSection";
+import { getTime } from "../../utils/getTime";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -89,7 +90,9 @@ const PostPage = ({ postInfo }) => {
                   </div>
                   <div className="flex flex-col p-2 w-10/12">
                     <Typography variant="body1">{data.username}</Typography>
-                    <Typography variant="caption"></Typography>
+                    <Typography variant="caption">
+                      {getTime(data.updatedAt)}
+                    </Typography>
                   </div>
                   <div className="w-2/12 self-end">
                     <MenuButton UserID={data.user} postId={data._id} />

@@ -2,7 +2,7 @@ import Badge from "@material-ui/core/Badge";
 import Avatar from "@material-ui/core/Avatar";
 import { makeStyles, withStyles } from "@material-ui/core/styles";
 import React, { useEffect, useState } from "react";
-import { Button, Typography } from "@material-ui/core";
+import { Button, Divider, Typography } from "@material-ui/core";
 import axios from "axios";
 import IconButton from "@material-ui/core/IconButton";
 import PhotoCamera from "@material-ui/icons/PhotoCamera";
@@ -38,31 +38,83 @@ const ProfilePage = (props) => {
   const [error, setError] = useState("");
   const authToken = useSelector((state) => state.auth.authToken);
   const userId = useSelector((state) => state.auth.userId);
+  const mainUsername = useSelector((state) => state.auth.username);
+
+  const profileImageURL = useSelector((state) => state.auth.profileImageURL);
   const { userId: profileUserId } = useParams();
+  let getProfile = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.get(`/profile/${profileUserId}`, {
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          userId: userId,
+        },
+      });
+      setError("");
+      setPosts(response.data.postsData);
+      setImageURL(response.data.userData.profileImageURL);
+      setUsername(response.data.userData.username);
+      setFollowers(response.data.userData.followers);
+      setFollowing(response.data.userData.following);
+    } catch (error) {
+      setError(error.response.data.errorMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const getProfile = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.get(`/profile/${profileUserId}`, {
+    getProfile();
+  }, [profileUserId]);
+
+  const followUser = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `/profile/follow/add/${profileUserId}`,
+        { profileImageURL, username: mainUsername },
+        {
           headers: {
             Authorization: `Bearer ${authToken}`,
             userId: userId,
           },
-        });
-        setError("");
-        setPosts(response.data.postsData);
-        setImageURL(response.data.userData.profileImageURL);
-        setUsername(response.data.userData.username);
-        setFollowers(response.data.userData.followers);
-        setFollowing(response.data.userData.following);
-      } catch (error) {
-        setError(error.response.data.errorMessage);
-      } finally {
-        setLoading(false);
+        }
+      );
+      if (response.data.success === true) {
+        getProfile();
+        return;
       }
-    };
-    getProfile();
-  }, []);
+    } catch (error) {
+      console.log("error following user");
+      // setError(error.response.data);
+      setLoading(false);
+    }
+  };
+
+  const unFollowUser = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `/profile/follow/remove/${profileUserId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${authToken}`,
+            userId: userId,
+          },
+        }
+      );
+      if (response.data.success === true) {
+        getProfile();
+        return;
+      }
+    } catch (error) {
+      // setError(error.response.data.errorMessage);
+      console.log("error unfollowing user");
+
+      setLoading(false);
+    }
+  };
 
   let page;
   if (loading) {
@@ -96,24 +148,36 @@ const ProfilePage = (props) => {
 
             <div className="w-full md:w-11/12 flex justify-end">
               {userId !== profileUserId ? (
-                following.find((user) => user.userId === profileUserId) ? (
-                  <Button variant="contained" color="primary">
+                followers.find((user) => user.userId === userId) ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={unFollowUser}
+                  >
                     UnFollow
                   </Button>
                 ) : (
-                  <Button variant="contained" color="primary">
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={followUser}
+                  >
                     Follow
                   </Button>
                 )
               ) : null}
             </div>
             <div className="flex flex-col w-full">
-              {posts
-                .slice(0)
-                .reverse()
-                .map((post) => (
-                  <PostCard key={post._id} postInfo={post} />
-                ))}
+              {posts.length !== 0 &&
+                posts
+                  .slice(0)
+                  .reverse()
+                  .map((post) => <PostCard key={post._id} postInfo={post} />)}
+              {posts.length === 0 && (
+                <div className="flex flex-col pt-6  justify-center items-center">
+                  <span className="p-5">No Posts till yet!</span>
+                </div>
+              )}
             </div>
           </div>
         </div>
