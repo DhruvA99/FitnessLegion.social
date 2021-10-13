@@ -73,7 +73,7 @@ const AddPost = (props) => {
               setText(e.target.value);
               setHelperText("");
             }}
-            label={`What's new, ${props.username ? props.username : "User"} ?
+            label={`What's new, ${username ? username : "User"} ?
           `}
             variant="outlined"
           />
